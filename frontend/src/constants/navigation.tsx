@@ -1,6 +1,8 @@
 import {
+    ChatIcon,
     HomeIcon,
     OrderIcon,
+    WorkIcon,
 } from '@shopify/polaris-icons';
 import { FunctionComponent, SVGProps } from 'react';
 
@@ -14,29 +16,35 @@ export type NavigationProps = {
 export const ownerNavigation: NavigationProps[] = [
     {
         id: 1,
-        title: "Home",
-        url: "/",
+        title: "Manage Employee",
+        url: "/owner",
         icon: HomeIcon
     },
     {
         id: 2,
-        title: "Address",
-        url: "/address",
-        icon: OrderIcon
+        title: "Manage Task",
+        url: "/owner/manage-task",
+        icon: WorkIcon
+    },
+    {
+        id: 2,
+        title: "Message",
+        url: "/owner/message",
+        icon: ChatIcon
     }
 ]
 
 export const employeeNavigation: NavigationProps[] = [
     {
         id: 1,
-        title: "Home",
+        title: "Manage Task",
         url: "/",
-        icon: HomeIcon
+        icon: WorkIcon
     },
     {
         id: 2,
-        title: "Address",
-        url: "/address",
-        icon: OrderIcon
+        title: "Message",
+        url: "/employee/message",
+        icon: ChatIcon
     }
 ]

@@ -7,7 +7,8 @@ import LeftSideBar from "./LeftSideBar";
 import Header from "./Header";
 
 type Props = Readonly<{
-    children?: ReactNode
+    children?: ReactNode;
+    role: 'owner' | 'employee'
 }>
 
 const logo = {
@@ -17,7 +18,7 @@ const logo = {
     accessibilityLabel: 'Shopify',
 };
 
-function MainLayout({ children }: Props) {
+function MainLayout({ children, role }: Props) {
     const skipToContentRef = useRef(null);
     const [mobileNavigationActive, setMobileNavigationActive] = useState(false);
 
@@ -31,7 +32,7 @@ function MainLayout({ children }: Props) {
         <Frame
             logo={logo}
             topBar={<Header toggleSideBar={toggleMobileNavigationActive} />}
-            navigation={<LeftSideBar />}
+            navigation={<LeftSideBar role={role} />}
             showMobileNavigation={mobileNavigationActive}
             onNavigationDismiss={toggleMobileNavigationActive}
             skipToContentTarget={skipToContentRef}

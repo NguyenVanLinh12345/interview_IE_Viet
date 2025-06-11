@@ -1,6 +1,5 @@
 import { Navigation } from '@shopify/polaris';
 import { employeeNavigation, ownerNavigation } from '@/constants/navigation';
-import { ArrowLeftIcon, ChatIcon } from '@shopify/polaris-icons';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -22,10 +21,6 @@ export default function LeftSideBar({ role }: Props) {
         router.push(placeTo);
     }, []);
 
-    const toggleModalActive = useCallback(() => {
-        console.log("Bấm vào logo tin nhắn");
-    }, []);
-
     useEffect(() => {
         const pageSite = navigation.find((element) => element.url === pathname);
         if (pageSite) {
@@ -36,17 +31,8 @@ export default function LeftSideBar({ role }: Props) {
     return (
         <Navigation location="/">
             <Navigation.Section
-                items={[
-                    {
-                        label: 'Home',
-                        icon: ArrowLeftIcon,
-                        onClick: () => changePage("/")
-                    },
-                ]}
-            />
-            <Navigation.Section
                 separator
-                title="Exercise 1"
+                title={role === 'owner' ? "Owner" : "Employee"}
                 items={
                     navigation.map((element) => (
                         {
@@ -57,11 +43,6 @@ export default function LeftSideBar({ role }: Props) {
                         }
                     ))
                 }
-                action={{
-                    icon: ChatIcon,
-                    accessibilityLabel: 'Contact support',
-                    onClick: toggleModalActive,
-                }}
             />
         </Navigation>
     );
