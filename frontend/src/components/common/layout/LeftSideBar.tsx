@@ -4,9 +4,9 @@ import { ArrowLeftIcon, ChatIcon } from '@shopify/polaris-icons';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-type Props = {
+type Props = Readonly<{
     role: 'owner' | 'employee'
-}
+}>
 
 export default function LeftSideBar({ role }: Props) {
     const router = useRouter();
