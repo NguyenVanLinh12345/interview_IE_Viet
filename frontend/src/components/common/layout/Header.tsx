@@ -11,21 +11,8 @@ export default function Header({ toggleSideBar }: Props) {
     // const name = appState.name;
     const name = 'App name';
 
-    const [searchActive, setSearchActive] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
     const [userMenuActive, setUserMenuActive] = useState(false);
-
-    // Đây là hàm khi thoát khỏi ô tìm kiếm
-    const handleSearchResultsDismiss = useCallback(() => {
-        setSearchActive(false);
-        setSearchValue('');
-    }, []);
-    // Đây là hàm thay đổi nội dung ô tìm kiếm
-    const handleSearchFieldChange = useCallback((value: string) => {
-        setSearchValue(value);
-        setSearchActive(value.length > 0);
-    }, []);
-
+ 
     const toggleUserMenuActive = useCallback(
         () => setUserMenuActive((userMenuActive) => !userMenuActive),
         [],
@@ -65,24 +52,12 @@ export default function Header({ toggleSideBar }: Props) {
         />
     );
 
-    // Đây là ô tìm kiếm
-    const searchFieldMarkup = (
-        <TopBar.SearchField
-            onChange={handleSearchFieldChange}
-            value={searchValue}
-            placeholder="Search"
-        />
-    );
-
     return (
         <TopBar
             showNavigationToggle
             onNavigationToggle={toggleMobileNavigationActive}
             userMenu={userMenuMarkup}
-            searchResultsVisible={searchActive}
-            searchField={searchFieldMarkup}
             searchResults={searchResultsMarkup}
-            onSearchResultsDismiss={handleSearchResultsDismiss}
         />
     );
 }

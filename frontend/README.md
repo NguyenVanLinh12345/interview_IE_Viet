@@ -5,8 +5,18 @@ Owner Role:
         + Create work and set schedule
         + Chat
 
+=> Quy trinh:
+    - B1: owner go to /owner
+    - B2: if login, role = owner => dashboard, else => login
+    - B3: dashboard includes: manage employees (home), manage task, message
+
 Employee Role:
     - Receive a link via gmail -> set up account: "email" vs "password", "name", etc...
     - Login: "email" vs "password"
     - Profile editing
     - Manage assigned tasks
+
+=> Quy trinh (Procedure):
+    - B1: User  go to / (home)
+    - B2: if login, role = employee => go to dashboard
+    - B3: dashboard includes: manage task, message

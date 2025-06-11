@@ -1,13 +1,12 @@
 'use client'
 
 // Lưu ý: dùng polaris phải có use client
-import { Frame, Toast } from "@shopify/polaris";
+import MainLayout from "../common/layout/MainLayout";
 
 export default function HomeComponent() {
     return (
-        <Frame>
-            <Toast content="Home" onDismiss={() => { }} />
-            main nha
-        </Frame>
+        <MainLayout>
+
+        </MainLayout>
     );
 }

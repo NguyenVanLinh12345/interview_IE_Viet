@@ -7,8 +7,15 @@ import LeftSideBar from "./LeftSideBar";
 import Header from "./Header";
 
 type Props = Readonly<{
-    children: ReactNode
+    children?: ReactNode
 }>
+
+const logo = {
+    width: 86,
+    topBarSource: 'https://cdn.shopify.com/s/files/1/2376/3301/files/Shopify_Secondary_Inverted.png',
+    contextualSaveBarSource: 'https://cdn.shopify.com/s/files/1/2376/3301/files/Shopify_Secondary_Inverted.png',
+    accessibilityLabel: 'Shopify',
+};
 
 function MainLayout({ children }: Props) {
     const skipToContentRef = useRef(null);
@@ -18,13 +25,6 @@ function MainLayout({ children }: Props) {
     const toggleMobileNavigationActive = useCallback(() => {
         setMobileNavigationActive((mobileNavigationActive) => !mobileNavigationActive)
     }, []);
-
-    const logo = {
-        width: 86,
-        topBarSource: 'https://cdn.shopify.com/s/files/1/2376/3301/files/Shopify_Secondary_Inverted.png',
-        contextualSaveBarSource: 'https://cdn.shopify.com/s/files/1/2376/3301/files/Shopify_Secondary_Inverted.png',
-        accessibilityLabel: 'Shopify',
-    };
 
     return (
         // <ContextProvider>

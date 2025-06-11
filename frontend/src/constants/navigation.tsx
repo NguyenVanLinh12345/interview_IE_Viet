@@ -10,7 +10,23 @@ export type NavigationProps = {
     url: string,
     icon: FunctionComponent<SVGProps<SVGSVGElement>>
 }
-export const navigation: NavigationProps[] = [
+
+export const ownerNavigation: NavigationProps[] = [
+    {
+        id: 1,
+        title: "Home",
+        url: "/",
+        icon: HomeIcon
+    },
+    {
+        id: 2,
+        title: "Address",
+        url: "/address",
+        icon: OrderIcon
+    }
+]
+
+export const employeeNavigation: NavigationProps[] = [
     {
         id: 1,
         title: "Home",

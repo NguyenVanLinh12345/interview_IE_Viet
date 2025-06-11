@@ -1,12 +1,21 @@
 import { Navigation } from '@shopify/polaris';
-import { navigation } from '@/constants/navigation';
+import { employeeNavigation, ownerNavigation } from '@/constants/navigation';
 import { ArrowLeftIcon, ChatIcon } from '@shopify/polaris-icons';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-export default function LeftSideBar() {
+type Props = {
+    role: 'owner' | 'employee'
+}
+
+export default function LeftSideBar({ role }: Props) {
     const router = useRouter();
     const pathname = usePathname();
+
+    const navigation = useMemo(() => {
+        if (role === 'owner') return ownerNavigation;
+        return employeeNavigation;
+    }, [role])
 
     // Hàm dùng để thay đổi page
     const changePage = useCallback((placeTo: string) => {
