@@ -9,7 +9,7 @@ type Props = Readonly<{
 export default function Header({ toggleSideBar }: Props) {
     // const [appState, dispatch] = useAppContext();
     // const name = appState.name;
-    const name = 'App name';
+    const name = 'name';
 
     const [userMenuActive, setUserMenuActive] = useState(false);
  

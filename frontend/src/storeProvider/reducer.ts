@@ -19,7 +19,7 @@ const reducer = (state: any, action: any) => {
             newState.listAddress[id] = data;
             break;
         default:
-            console.log("Không bắt được sự kiện trong app context");
+            console.log("Không bắt được sự kiện trong context");
     }
     return newState;
 };

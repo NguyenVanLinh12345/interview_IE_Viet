@@ -19,7 +19,7 @@ type EditProp = {
 
 const listEmployee: Employee[] = [
     {
-        id: 0,
+        id: '0',
         name: "xin chao",
         email: "a@gmail.com",
         address: "American",
@@ -28,7 +28,7 @@ const listEmployee: Employee[] = [
         role: 'employee'
     },
     {
-        id: 1,
+        id: '1',
         name: "xin chao",
         email: "a@gmail.com",
         address: "American",
@@ -65,7 +65,7 @@ export default function EmployeeTable({ }: Props) {
     const showErrorMessage = (message: string) => {
     };
 
-    const handleRemoveApp = async (employeeId: number) => {
+    const handleRemoveEmployee = async (employeeId?: string) => {
     };
 
     const handleSubmit = async (employeeData: EmployeeClient) => {
@@ -80,7 +80,7 @@ export default function EmployeeTable({ }: Props) {
     const rowMarkup = listEmployee.map((employeeInfo: Employee, index: number) => {
         const { id, name, enable, email } = employeeInfo;
         return (
-            <IndexTable.Row id={id.toString()} key={id} position={index}>
+            <IndexTable.Row id={id} key={id} position={index}>
                 <IndexTable.Cell>{name}</IndexTable.Cell>
 
                 <IndexTable.Cell>
@@ -155,11 +155,11 @@ export default function EmployeeTable({ }: Props) {
             <Modal
                 open={openDelete.open}
                 onClose={handleCloseDeletePopup}
-                title="Delete Partner App"
+                title="Delete employee"
                 primaryAction={{
                     destructive: true,
                     content: 'Delete',
-                    onAction: () => handleRemoveApp(openDelete.employee?.id as number),
+                    onAction: () => handleRemoveEmployee(openDelete.employee?.id),
                 }}
             >
                 <Modal.Section>

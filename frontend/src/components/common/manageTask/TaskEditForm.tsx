@@ -1,8 +1,8 @@
 'use client'
 
-import { Task, TaskClient, TaskStatus, TaskSubmit } from '@/types/Common';
+import { Task, TaskClient, TaskStatus, TaskSubmit } from '@/types/task';
 import { Autocomplete, BlockStack, Button, Form, FormLayout, Icon, InlineStack, OptionList, Popover, TextField } from '@shopify/polaris';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { SearchIcon } from '@shopify/polaris-icons'
 import { useCallbackDebounce } from '@/hooks/useCallbackDebounce';
 const dataDefault: TaskClient = {
@@ -63,7 +63,7 @@ export default function TaskEditForm({ handleSubmit, initData, initEmployee = []
         <Form
             method='post'
             onSubmit={async () => {
-                await handleSubmit({ ...taskInfo, status: statusSelected[0] as TaskStatus, employeeId: Number(selectAssignee[0]) });
+                await handleSubmit({ ...taskInfo, status: statusSelected[0] as TaskStatus, employeeId: selectAssignee[0] });
             }}
         >
             <FormLayout>
@@ -73,7 +73,7 @@ export default function TaskEditForm({ handleSubmit, initData, initEmployee = []
                         value={taskInfo.name}
                         onChange={handleChangeName}
                         type="text"
-                        autoComplete='false'
+                        autoComplete='off'
                         maxLength={180}
                         showCharacterCount
                     />
@@ -85,7 +85,7 @@ export default function TaskEditForm({ handleSubmit, initData, initEmployee = []
                         value={taskInfo.description}
                         onChange={handleChangeDescription}
                         type="text"
-                        autoComplete='false'
+                        autoComplete='off'
                     />
 
                     <Popover

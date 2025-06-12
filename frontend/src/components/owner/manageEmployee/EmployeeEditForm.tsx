@@ -1,6 +1,6 @@
 'use client'
 
-import { Employee, EmployeeClient } from '@/types/Common';
+import { Employee, EmployeeClient, SystemRole } from '@/types/Common';
 import { Button, Form, FormLayout, OptionList, Popover, Select, TextField } from '@shopify/polaris';
 import { useState } from 'react';
 
@@ -53,7 +53,7 @@ export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
         <Form
             method='post'
             onSubmit={async () => {
-                await handleSubmit({ ...employeeInfo, role: selected[0] });
+                await handleSubmit({ ...employeeInfo, role: selected[0] as SystemRole });
             }}
         >
             <FormLayout>
@@ -65,7 +65,7 @@ export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
                     onChange={handleChangeEmail}
                     label="Email"
                     type="email"
-                    autoComplete='false'
+                    autoComplete='off'
                 />
 
                 <TextField
@@ -73,7 +73,7 @@ export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
                     value={employeeInfo.name}
                     onChange={handleChangeName}
                     type="text"
-                    autoComplete='false'
+                    autoComplete='off'
                 />
 
 
@@ -83,7 +83,7 @@ export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
                     onChange={handleChangePhoneNumber}
                     type="text"
                     prefix="+84"
-                    autoComplete='false'
+                    autoComplete='off'
                 />
 
                 <TextField
@@ -91,7 +91,7 @@ export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
                     onChange={handleChangeAddress}
                     value={employeeInfo.address}
                     type="text"
-                    autoComplete='false'
+                    autoComplete='off'
                 />
 
                 <Popover

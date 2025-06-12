@@ -20,3 +20,28 @@ Employee Role:
     - B1: User  go to / (home)
     - B2: if login, role = employee => go to dashboard
     - B3: dashboard includes: manage task, message
+
+
+message---------------
+users
+ └─ userA
+     └─ conversations (subcollection)
+         ├─ conversationId1 → { conversationId: "abc123", lastMessage: "...", ... }
+         └─ conversationId2 → ...
+
+--------------
+/conversations (collection)
+ └─ abc123 (document) ← ID cuộc trò chuyện giữa userA và userB
+     ├─ lastMessage: 'ok'
+     ├─ lastUserName: 'Nguyễn Công Hoan'    -> Cái này để hiện ra danh sách
+     ├─ lastTimestamp: 1718166400000 (Bỏ)
+
+     /messages (subcollection)
+      ├─ msg1 (document)
+      │   ├─ senderId: 'userA'
+      │   ├─ content: 'hello'
+      │   ├─ timestamp: 1718166300000
+      └─ msg2 (document)
+          ├─ senderId: 'userB'
+          ├─ content: 'ok'
+          ├─ timestamp: 1718166400000

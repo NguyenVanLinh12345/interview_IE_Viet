@@ -1,0 +1,40 @@
+/* ChatContent */
+.chatContentContainer {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.listChatContent {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chatItem {
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 60%;
+}
+
+.myChatItem {
+    background-color: #1464f7;
+    align-self: flex-end;
+    color: white;
+}
+
+.otherChatItem {
+    align-self: flex-start;
+    background-color: #E6E8EA;
+}
+
+.contentInputContainer {
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(236, 236, 236);
+    border-radius: 12px;
+    display: flex;
+    gap: 12px;
+}

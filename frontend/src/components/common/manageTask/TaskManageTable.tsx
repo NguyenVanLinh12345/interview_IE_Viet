@@ -3,14 +3,11 @@
 import React, { useState } from 'react';
 
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { Employee, Task, TaskClient, TaskStatus } from '@/types/Common';
+import { Task, TaskClient, TaskStatus } from '@/types/task';
 import TaskEditForm from './TaskEditForm';
+import { Employee } from '@/types/Common';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };
-
-type Props = Readonly<{
-
-}>
 
 type EditProp = {
     open: boolean;
@@ -73,7 +70,7 @@ const deselectedOptions = [
     { value: '5', label: 'Tài Công' },
 ]
 
-export default function TaskManageTable({ }: Props) {
+export default function TaskManageTable() {
     const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, task: undefined });
     const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, task: undefined });
     const [listEmployee, setListEmployee] = useState<{ label: string, value: string }[]>(deselectedOptions);
@@ -100,7 +97,7 @@ export default function TaskManageTable({ }: Props) {
     const showErrorMessage = (message: string) => {
     };
 
-    const handleRemoveApp = async (taskId: number) => {
+    const handleRemoveTask = async (taskId?: string) => {
     };
 
     const handleSubmit = async (taskData: TaskClient) => {
@@ -127,7 +124,7 @@ export default function TaskManageTable({ }: Props) {
         const { id, name, status } = taskData;
         const { tone, content } = getBadgeStatus(status);
         return (
-            <IndexTable.Row id={id.toString()} key={id} position={index}>
+            <IndexTable.Row id={id} key={id} position={index}>
                 <IndexTable.Cell>{name}</IndexTable.Cell>
 
                 <IndexTable.Cell>
@@ -198,11 +195,11 @@ export default function TaskManageTable({ }: Props) {
             <Modal
                 open={openDelete.open}
                 onClose={handleCloseDeletePopup}
-                title="Delete Partner App"
+                title="Delete task"
                 primaryAction={{
                     destructive: true,
                     content: 'Delete',
-                    onAction: () => handleRemoveApp(openDelete.task?.id as number),
+                    onAction: () => handleRemoveTask(openDelete.task?.id),
                 }}
             >
                 <Modal.Section>
