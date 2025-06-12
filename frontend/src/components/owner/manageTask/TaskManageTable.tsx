@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { Employee } from '@/types/Common';
+import { Employee, Task, TaskClient, TaskStatus } from '@/types/Common';
+import TaskEditForm from './TaskEditForm';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };
 
@@ -13,7 +14,7 @@ type Props = Readonly<{
 
 type EditProp = {
     open: boolean;
-    employee: Employee | undefined;
+    task: Task | undefined;
 }
 
 const listEmployee: Employee[] = [
@@ -24,7 +25,7 @@ const listEmployee: Employee[] = [
         address: "American",
         enable: true,
         phoneNumber: "3232",
-        role: ''
+        role: 'employee'
     },
     {
         id: 1,
@@ -33,29 +34,64 @@ const listEmployee: Employee[] = [
         address: "American",
         enable: false,
         phoneNumber: "3232",
-        role: ''
+        role: 'owner'
     },
 ];
 
 
-export default function TaskManageTable({ }: Props) {
-    const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, employee: undefined });
-    const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, employee: undefined });
+const listTask: Task[] = [
+    {
+        id: 0,
+        name: "task 1",
+        status: TaskStatus.PLANING,
+        description: "Task được tạo ra để test",
+        employee: listEmployee[0]
+    },
+    {
+        id: 1,
+        name: "task 2",
+        status: TaskStatus.DOING,
+        description: "Task được tạo ra để test",
+        employee: listEmployee[0]
+    },
+    {
+        id: 2,
+        name: "task 3",
+        status: TaskStatus.DONE,
+        description: "Task được tạo ra để test",
+        employee: listEmployee[1]
+    }
+]
 
-    const handleOpenEditPopup = (employeeInfo?: Employee) => {
-        setOpenEdit({ open: true, employee: employeeInfo });
+type CustomTone = 'info' | 'success' | 'critical';
+
+const deselectedOptions = [
+    { value: '1', label: 'Quốc Bảo' },
+    { value: '2', label: 'Anh Quế' },
+    { value: '3', label: 'Vĩnh Lộc' },
+    { value: '4', label: 'Vịnh Xuân' },
+    { value: '5', label: 'Tài Công' },
+]
+
+export default function TaskManageTable({ }: Props) {
+    const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, task: undefined });
+    const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, task: undefined });
+    const [listEmployee, setListEmployee] = useState<{ label: string, value: string }[]>(deselectedOptions);
+
+    const handleOpenEditPopup = (newTask?: Task) => {
+        setOpenEdit({ open: true, task: newTask });
     };
 
     const handleCloseEditPopup = () => {
-        setOpenEdit({ open: false, employee: undefined });
+        setOpenEdit({ open: false, task: undefined });
     };
 
-    const handleOpenDeletePopup = (employeeInfo: Employee) => {
-        setOpenDelete({ open: true, employee: employeeInfo });
+    const handleOpenDeletePopup = (taskData: Task) => {
+        setOpenDelete({ open: true, task: taskData });
     };
 
     const handleCloseDeletePopup = () => {
-        setOpenDelete({ open: false, employee: undefined });
+        setOpenDelete({ open: false, task: undefined });
     };
 
     const showSuccessMessage = (message: string) => {
@@ -64,42 +100,46 @@ export default function TaskManageTable({ }: Props) {
     const showErrorMessage = (message: string) => {
     };
 
-    const handleRemoveApp = async (employeeId: number) => {
+    const handleRemoveApp = async (taskId: number) => {
     };
 
-    const handleSubmit = async () => {
-        if (openEdit.employee?.id) {
+    const handleSubmit = async (taskData: TaskClient) => {
+        console.log(taskData)
+        if (openEdit.task?.id) {
             // update
         } else {
             //  create
         }
     };
 
-    const rowMarkup = listEmployee.map((employeeInfo: Employee, index: number) => {
-        const { id, name, enable, email } = employeeInfo;
+    const getBadgeStatus = (status: TaskStatus): { tone: CustomTone, content: string } => {
+        switch (status) {
+            case TaskStatus.PLANING:
+                return { tone: 'info', content: "Planing" };
+            case TaskStatus.DOING:
+                return { tone: 'critical', content: "Doing" };
+            default:
+                return { tone: 'success', content: "Done" };
+        }
+    }
+
+    const rowMarkup = listTask.map((taskData: Task, index: number) => {
+        const { id, name, status } = taskData;
+        const { tone, content } = getBadgeStatus(status);
         return (
             <IndexTable.Row id={id.toString()} key={id} position={index}>
                 <IndexTable.Cell>{name}</IndexTable.Cell>
 
                 <IndexTable.Cell>
-                    <Text as="p" variant="headingMd">{email}</Text>
-                </IndexTable.Cell>
+                    <Badge tone={tone}>{content}</Badge>
 
-                <IndexTable.Cell>
-                    <Badge tone={enable ? 'success' : 'new'}>{enable ? 'Enable' : 'Disable'}</Badge>
-                    {/* 
-                    status:
-                        + plaining: info
-                        + doing: critical
-                        + deployed: success 
-                    */}
                 </IndexTable.Cell>
 
                 <IndexTable.Cell>
                     <ButtonGroup>
                         <Button
                             onClick={() => {
-                                handleOpenEditPopup(employeeInfo);
+                                handleOpenEditPopup(taskData);
                             }}
                             size="slim"
                             variant='primary'
@@ -108,7 +148,7 @@ export default function TaskManageTable({ }: Props) {
                         </Button>
                         <Button
                             onClick={() => {
-                                handleOpenDeletePopup(employeeInfo);
+                                handleOpenDeletePopup(taskData);
                             }}
                             size="slim"
                             tone='critical'
@@ -126,16 +166,15 @@ export default function TaskManageTable({ }: Props) {
             <Box padding={'400'}>
                 <BlockStack gap={'300'}>
                     <InlineStack align='end'>
-                        <Button onClick={() => handleOpenEditPopup()}>Add new employee</Button>
+                        <Button onClick={() => handleOpenEditPopup()}>Add new task</Button>
                     </InlineStack>
                     <Card>
                         <IndexTable
                             selectable={false}
                             resourceName={resourceName}
-                            itemCount={listEmployee.length}
+                            itemCount={listTask.length}
                             headings={[
-                                { title: 'Employee Name' },
-                                { title: 'Email' },
+                                { title: 'Task Name' },
                                 { title: 'Status' },
                                 { title: 'Action' },
                             ]}
@@ -149,10 +188,10 @@ export default function TaskManageTable({ }: Props) {
             <Modal
                 open={openEdit.open}
                 onClose={handleCloseEditPopup}
-                title={"Manage Employee"}
+                title={"Create or Edit Task"}
             >
                 <Modal.Section>
-                    {/* <EditFormPartner handleSubmit={handleSubmit} initData={openEdit.employee} /> */}
+                    <TaskEditForm initEmployee={listEmployee} handleSubmit={handleSubmit} initData={openEdit.task as Task} />
                 </Modal.Section>
             </Modal>
 
@@ -163,11 +202,11 @@ export default function TaskManageTable({ }: Props) {
                 primaryAction={{
                     destructive: true,
                     content: 'Delete',
-                    onAction: () => handleRemoveApp(openDelete.employee?.id as number),
+                    onAction: () => handleRemoveApp(openDelete.task?.id as number),
                 }}
             >
                 <Modal.Section>
-                    Delete <strong>{openDelete.employee?.name}</strong>?
+                    Delete <strong>{openDelete.task?.name}</strong>?
                     <br />
                     This action cannot be undone.
                 </Modal.Section>
