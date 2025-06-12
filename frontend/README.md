@@ -45,3 +45,10 @@ users
           ├─ senderId: 'userB'
           ├─ content: 'ok'
           ├─ timestamp: 1718166400000
+
+
+Admin -> sẽ được tạo sẵn một tài khoản khi chạy hệ thống -> Có quyền thêm người dùng khác vào (Thêm số đt nếu là owner khác)
+
+Employee -> Nhận được link -> Bấm vào link -> Setup my account
+    -> Nếu thành công: đi đến trang đăng nhập
+    -> Nếu không thành công -> nhập lại

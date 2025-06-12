@@ -1,4 +1,4 @@
-import { Employee } from "./Common";
+import { Employee } from "./common";
 
 export enum TaskStatus {
     PLANING = 'planing',

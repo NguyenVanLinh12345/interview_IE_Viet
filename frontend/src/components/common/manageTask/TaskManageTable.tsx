@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
 import { Task, TaskClient, TaskStatus } from '@/types/task';
 import TaskEditForm from './TaskEditForm';
-import { Employee } from '@/types/Common';
+import { Employee } from '@/types/common';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };
 

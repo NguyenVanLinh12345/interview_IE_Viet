@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { Employee, EmployeeClient } from '@/types/Common';
+import { Employee, EmployeeClient } from '@/types/common';
 import EmployeeEditForm from '@/components/owner/manageEmployee/EmployeeEditForm';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };

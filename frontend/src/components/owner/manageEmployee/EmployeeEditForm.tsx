@@ -1,6 +1,6 @@
 'use client'
 
-import { Employee, EmployeeClient, SystemRole } from '@/types/Common';
+import { Employee, EmployeeClient, SystemRole } from '@/types/common';
 import { Button, Form, FormLayout, OptionList, Popover, Select, TextField } from '@shopify/polaris';
 import { useState } from 'react';
 
