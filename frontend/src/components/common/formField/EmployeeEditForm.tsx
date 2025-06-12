@@ -1,6 +1,6 @@
 'use client'
 
-import { Employee } from '@/types/Common';
+import { Employee, EmployeeClient } from '@/types/Common';
 import { Button, Form, FormLayout, OptionList, Popover, Select, TextField } from '@shopify/polaris';
 import { useState } from 'react';
 
@@ -9,61 +9,60 @@ const options = [
     { label: 'Disable', value: '0' },
 ];
 
-const dataDefault: Omit<Employee, 'id'> = {
+const dataDefault: EmployeeClient = {
     name: "",
     email: "",
     address: "",
     enable: true,
     phoneNumber: "",
-    role: ""
+    role: "employee"
 };
 
 type Props = Readonly<{
     initData: Employee;
-    handleSubmit: (employeeInfo: Employee) => void | Promise<void>;
+    handleSubmit: (employeeInfo: EmployeeClient) => void | Promise<void>;
 }>
 
 export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
     const [employeeInfo, setEmployeeInfo] = useState(initData ?? dataDefault);
+    const [selected, setSelected] = useState<string[]>([initData?.role ?? 'employee']);
+    const [popoverActive, setPopoverActive] = useState(true);
+    const togglePopoverActive = () => setPopoverActive((popoverActive) => !popoverActive)
+
+    const handleChangeEnable = (value: '1' | '0') => {
+        setEmployeeInfo({ ...employeeInfo, enable: value === '1' });
+    };
+
+    const handleChangeEmail = (value: string) => {
+        setEmployeeInfo({ ...employeeInfo, email: value });
+    };
 
     const handleChangeName = (value: string) => {
         setEmployeeInfo({ ...employeeInfo, name: value });
     };
 
-    const handleSelectChange = (value: '1' | '0') => {
-        setEmployeeInfo({ ...employeeInfo, enable: value === '1' });
+    const handleChangePhoneNumber = (value: string) => {
+        setEmployeeInfo({ ...employeeInfo, phoneNumber: value });
     };
 
     const handleChangeAddress = (value: string) => {
         setEmployeeInfo({ ...employeeInfo, address: value });
     };
 
-
-    const [selected, setSelected] = useState<string[]>([]);
-    const [popoverActive, setPopoverActive] = useState(true);
-
-    const togglePopoverActive = () => setPopoverActive((popoverActive) => !popoverActive)
-
-    const activator = (
-        <Button onClick={togglePopoverActive} disclosure>
-            User Role
-        </Button>
-    );
-
     return (
         <Form
             method='post'
             onSubmit={async () => {
-                await handleSubmit(employeeInfo);
+                await handleSubmit({ ...employeeInfo, role: selected[0] });
             }}
         >
             <FormLayout>
-                <Select label="Status" options={options} onChange={handleSelectChange} value={employeeInfo.enable ? '1' : '0'} />
+                <Select label="Status" options={options} onChange={handleChangeEnable} value={employeeInfo.enable ? '1' : '0'} />
 
                 <TextField
                     value={employeeInfo.email}
-                    disabled={Boolean(employeeInfo.email)}
-                    onChange={handleChangeAddress}
+                    disabled={Boolean(initData?.email)}
+                    onChange={handleChangeEmail}
                     label="Email"
                     type="email"
                     autoComplete='false'
@@ -79,25 +78,25 @@ export default function EmployeeEditForm({ handleSubmit, initData }: Props) {
 
 
                 <TextField
-                    value={employeeInfo.address}
-                    onChange={handleChangeAddress}
                     label="Phone number"
+                    value={employeeInfo.phoneNumber}
+                    onChange={handleChangePhoneNumber}
                     type="text"
                     prefix="+84"
                     autoComplete='false'
                 />
 
                 <TextField
-                    value={employeeInfo.phoneNumber}
-                    onChange={handleChangeAddress}
                     label="Address"
+                    onChange={handleChangeAddress}
+                    value={employeeInfo.address}
                     type="text"
                     autoComplete='false'
                 />
 
                 <Popover
                     active={popoverActive}
-                    activator={activator}
+                    activator={<Button onClick={togglePopoverActive} disclosure>User Role</Button>}
                     onClose={togglePopoverActive}
                 >
                     <OptionList

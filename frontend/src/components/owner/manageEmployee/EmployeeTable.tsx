@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { Employee } from '@/types/Common';
+import { Employee, EmployeeClient } from '@/types/Common';
 import EmployeeEditForm from '@/components/common/formField/EmployeeEditForm';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };
@@ -25,7 +25,7 @@ const listEmployee: Employee[] = [
         address: "American",
         enable: true,
         phoneNumber: "3232",
-        role: 'hehe'
+        role: 'employee'
     },
     {
         id: 1,
@@ -34,7 +34,7 @@ const listEmployee: Employee[] = [
         address: "American",
         enable: false,
         phoneNumber: "3232",
-        role: ''
+        role: 'owner'
     },
 ];
 
@@ -68,7 +68,8 @@ export default function EmployeeTable({ }: Props) {
     const handleRemoveApp = async (employeeId: number) => {
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (employeeData: EmployeeClient) => {
+        console.log(employeeData)
         if (openEdit.employee?.id) {
             // update
         } else {
