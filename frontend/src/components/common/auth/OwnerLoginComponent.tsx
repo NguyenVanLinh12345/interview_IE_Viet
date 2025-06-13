@@ -35,6 +35,7 @@ export default function OwnerLoginComponent({
     }
 
     useEffect(() => {
+        // Check login state
         if (false) {
             if (role === 'owner') {
                 router.replace('/owner');
