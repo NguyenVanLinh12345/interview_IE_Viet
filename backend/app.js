@@ -35,6 +35,7 @@ socketIO.on('connection', (socket) => {
 
     socket.on('message', (data) => {
         console.log(data)
+        socketIO.emit('test', {'bye': 'hello'})
     });
 
     socket.on('join room', (data) => {
