@@ -2,7 +2,6 @@
 
 import { Frame } from "@shopify/polaris";
 import { useRef, useState, useCallback, ReactNode } from "react";
-// import ContextProvider from "./storeProvider/ContextProvider";
 import LeftSideBar from "./LeftSideBar";
 import Header from "./Header";
 

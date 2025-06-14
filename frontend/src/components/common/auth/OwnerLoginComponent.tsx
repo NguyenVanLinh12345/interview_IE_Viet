@@ -4,8 +4,7 @@ import styles from './index.module.css';
 import { ArrowLeftIcon } from '@shopify/polaris-icons';
 import { BlockStack, Box, Button, Card, Text, TextField } from "@shopify/polaris";
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { SystemRole } from '@/types/Common';
+import { useState } from 'react';
 
 type Props = Readonly<{
     title: string;
@@ -14,8 +13,7 @@ type Props = Readonly<{
     onSubmit: (value: string) => Promise<void> | void;
     isLoading?: boolean;
     error?: string;
-    role: SystemRole;
-    type?: 'text' | 'email'
+    type?: 'email' | 'text';
 }>
 export default function OwnerLoginComponent({
     title,
@@ -24,7 +22,6 @@ export default function OwnerLoginComponent({
     isLoading = false,
     onSubmit,
     error = '',
-    role,
     type = 'text'
 }: Props) {
     const [content, setContent] = useState('');
@@ -33,17 +30,6 @@ export default function OwnerLoginComponent({
     const handleSubmit = () => {
         onSubmit(content);
     }
-
-    useEffect(() => {
-        // Check login state
-        if (false) {
-            if (role === 'owner') {
-                router.replace('/owner');
-            } else {
-                router.replace('/');
-            }
-        }
-    }, []);
 
     return (
         <div className={styles.screenContainer}>

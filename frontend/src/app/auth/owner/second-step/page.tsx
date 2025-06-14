@@ -12,7 +12,6 @@ export default function SecondStep() {
 
     return (
         <OwnerLoginComponent
-            role="owner"
             title="Phone number verification"
             description="Please enter your code that send to your phone number"
             buttonTitle="Login"

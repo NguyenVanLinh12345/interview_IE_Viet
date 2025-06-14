@@ -1,5 +1,19 @@
 # Frontend: Nextjs vs Typescript vs Shopify polaris (UI)
 
+# Install and Run Frontend
+```
+cd frontend
+run: npm install
+run: npm run dev
+```
+
+# Install and run backend
+```
+cd backend
+run: npm install
+run: npm run dev
+```
+
 # Employee functions
 ## auth step 1
 ![auth step 1](./images/employee/auth-step1.png)

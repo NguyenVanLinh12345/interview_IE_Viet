@@ -12,7 +12,6 @@ export default function SecondStep() {
 
     return (
         <OwnerLoginComponent
-            role="employee"
             title="Email verification"
             description="Please enter your code that send to your email address"
             buttonTitle="Login"

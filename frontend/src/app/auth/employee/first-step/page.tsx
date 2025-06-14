@@ -7,13 +7,12 @@ export default function FirstStep() {
 
     const validateEmail = async (content: string) => {
 
-        router.push('/employee/auth/second-step');
+        router.push('/auth/employee/second-step');
     }
 
     return (
         <OwnerLoginComponent
             type="email"
-            role="employee"
             title="Sign In"
             description="Please enter your email to sign in"
             buttonTitle="Next"
