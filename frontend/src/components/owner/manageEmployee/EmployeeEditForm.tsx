@@ -1,6 +1,6 @@
 'use client'
 
-import { Employee, EmployeeClient, SystemRole } from '@/types/common';
+import { EmployeeData, SystemRole } from '@/types/employee';
 import { Button, Form, FormLayout, OptionList, Popover, Select, TextField } from '@shopify/polaris';
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ const options = [
     { label: 'Disable', value: '0' },
 ];
 
-const dataDefault: EmployeeClient = {
+const dataDefault: EmployeeData = {
     name: "",
     email: "",
     address: "",
@@ -19,8 +19,8 @@ const dataDefault: EmployeeClient = {
 };
 
 type Props = Readonly<{
-    initData: Employee;
-    handleSubmit: (employeeInfo: EmployeeClient) => void | Promise<void>;
+    initData: EmployeeData | undefined;
+    handleSubmit: (employeeInfo: EmployeeData) => void | Promise<void>;
 }>
 
 export default function EmployeeEditForm({ handleSubmit, initData }: Props) {

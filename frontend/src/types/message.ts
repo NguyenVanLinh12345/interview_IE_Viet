@@ -1,12 +1,12 @@
 type ChatItem = {
-    id: string;
     senderId: string;
     content: string;
 }
 type ListChatItem = Record<string, ChatItem>;
 
 type ConversationItem = {
-    lastUserName: string; // 'Nguyễn Công Hoan'
+    participants: string[];
+    lastUserName: string; // 'Nguyễn Công Hoan' -> Tên để hiện ra cho danh sách tin nhắn
     lastMessage: string; // 'tin nhắn cuối'
     messages: ListChatItem;
 }

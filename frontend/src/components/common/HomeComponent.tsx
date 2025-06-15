@@ -10,11 +10,12 @@ export default function HomeComponent() {
   const route = useRouter();
 
   useEffect(() => {
-    fetch('/api/set-access-cookie', {
+    fetch('/api-v0/set-access-cookie', {
       method: 'POST',
       body: JSON.stringify({ token: 'hello-nhoa' })
     })
   })
+
   return (
     <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Card>

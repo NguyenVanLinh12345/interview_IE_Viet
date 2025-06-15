@@ -2,19 +2,20 @@
 
 import React, { useState } from 'react';
 
-import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { Task, TaskClient, TaskStatus } from '@/types/task';
+import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal } from '@shopify/polaris';
+import { TaskData, TaskStatus } from '@/types/task';
 import TaskEditForm from './TaskEditForm';
-import { Employee } from '@/types/common';
+import { Employee } from '@/types/employee';
+import { listTask } from '@/constants/mockData';
 
-const resourceName = { singular: 'employee', plural: 'listEmployee' };
+const resourceName = { singular: 'employee', plural: 'listAssignee' };
 
 type EditProp = {
     open: boolean;
-    task: Task | undefined;
+    taskId: string | undefined;
 }
 
-const listEmployee: Employee[] = [
+const listAssignee: Employee[] = [
     {
         id: 0,
         name: "xin chao",
@@ -35,31 +36,6 @@ const listEmployee: Employee[] = [
     },
 ];
 
-
-const listTask: Task[] = [
-    {
-        id: 0,
-        name: "task 1",
-        status: TaskStatus.PLANING,
-        description: "Task được tạo ra để test",
-        employee: listEmployee[0]
-    },
-    {
-        id: 1,
-        name: "task 2",
-        status: TaskStatus.DOING,
-        description: "Task được tạo ra để test",
-        employee: listEmployee[0]
-    },
-    {
-        id: 2,
-        name: "task 3",
-        status: TaskStatus.DONE,
-        description: "Task được tạo ra để test",
-        employee: listEmployee[1]
-    }
-]
-
 type CustomTone = 'info' | 'success' | 'critical';
 
 const deselectedOptions = [
@@ -71,41 +47,35 @@ const deselectedOptions = [
 ]
 
 export default function TaskManageTable() {
-    const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, task: undefined });
-    const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, task: undefined });
-    const [listEmployee, setListEmployee] = useState<{ label: string, value: string }[]>(deselectedOptions);
+    const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, taskId: undefined });
+    const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, taskId: undefined });
+    const [listAssignee, setListAssignee] = useState<{ label: string, value: string }[]>(deselectedOptions);
 
-    const handleOpenEditPopup = (newTask?: Task) => {
-        setOpenEdit({ open: true, task: newTask });
+    const handleOpenEditPopup = (newTaskId?: string) => {
+        setOpenEdit({ open: true, taskId: newTaskId });
     };
 
     const handleCloseEditPopup = () => {
-        setOpenEdit({ open: false, task: undefined });
+        setOpenEdit({ open: false, taskId: undefined });
     };
 
-    const handleOpenDeletePopup = (taskData: Task) => {
-        setOpenDelete({ open: true, task: taskData });
+    const handleOpenDeletePopup = (taskId?: string) => {
+        setOpenDelete({ open: true, taskId: taskId });
     };
 
     const handleCloseDeletePopup = () => {
-        setOpenDelete({ open: false, task: undefined });
-    };
-
-    const showSuccessMessage = (message: string) => {
-    };
-
-    const showErrorMessage = (message: string) => {
+        setOpenDelete({ open: false, taskId: undefined });
     };
 
     const handleRemoveTask = async (taskId?: string) => {
     };
 
-    const handleSubmit = async (taskData: TaskClient) => {
+    const handleSubmit = async (taskData: TaskData) => {
         console.log(taskData)
-        if (openEdit.task?.id) {
-            // update
+        if (openEdit.taskId) {
+            console.log('update')
         } else {
-            //  create
+            console.log('create')
         }
     };
 
@@ -120,11 +90,11 @@ export default function TaskManageTable() {
         }
     }
 
-    const rowMarkup = listTask.map((taskData: Task, index: number) => {
-        const { id, name, status } = taskData;
+    const rowMarkup = Object.keys(listTask).map((taskKey: string, index: number) => {
+        const { name, status } = listTask[taskKey];
         const { tone, content } = getBadgeStatus(status);
         return (
-            <IndexTable.Row id={id} key={id} position={index}>
+            <IndexTable.Row id={taskKey} key={taskKey} position={index}>
                 <IndexTable.Cell>{name}</IndexTable.Cell>
 
                 <IndexTable.Cell>
@@ -136,7 +106,7 @@ export default function TaskManageTable() {
                     <ButtonGroup>
                         <Button
                             onClick={() => {
-                                handleOpenEditPopup(taskData);
+                                handleOpenEditPopup(taskKey);
                             }}
                             size="slim"
                             variant='primary'
@@ -145,7 +115,7 @@ export default function TaskManageTable() {
                         </Button>
                         <Button
                             onClick={() => {
-                                handleOpenDeletePopup(taskData);
+                                handleOpenDeletePopup(taskKey);
                             }}
                             size="slim"
                             tone='critical'
@@ -169,7 +139,7 @@ export default function TaskManageTable() {
                         <IndexTable
                             selectable={false}
                             resourceName={resourceName}
-                            itemCount={listTask.length}
+                            itemCount={Object.keys(listTask).length}
                             headings={[
                                 { title: 'Task Name' },
                                 { title: 'Status' },
@@ -188,7 +158,7 @@ export default function TaskManageTable() {
                 title={"Create or Edit Task"}
             >
                 <Modal.Section>
-                    <TaskEditForm initEmployee={listEmployee} handleSubmit={handleSubmit} initData={openEdit.task as Task} />
+                    <TaskEditForm initEmployee={listAssignee} handleSubmit={handleSubmit} initData={listTask[openEdit.taskId as string]} />
                 </Modal.Section>
             </Modal>
 
@@ -199,11 +169,11 @@ export default function TaskManageTable() {
                 primaryAction={{
                     destructive: true,
                     content: 'Delete',
-                    onAction: () => handleRemoveTask(openDelete.task?.id),
+                    onAction: () => handleRemoveTask(openDelete.taskId),
                 }}
             >
                 <Modal.Section>
-                    Delete <strong>{openDelete.task?.name}</strong>?
+                    Delete <strong>{listTask[openDelete.taskId as string]?.name}</strong>?
                     <br />
                     This action cannot be undone.
                 </Modal.Section>

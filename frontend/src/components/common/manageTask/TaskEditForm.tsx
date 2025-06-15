@@ -1,19 +1,19 @@
 'use client'
 
-import { Task, TaskClient, TaskStatus, TaskSubmit } from '@/types/task';
+import { TaskStatus, TaskData } from '@/types/task';
 import { Autocomplete, BlockStack, Button, Form, FormLayout, Icon, InlineStack, OptionList, Popover, TextField } from '@shopify/polaris';
 import { useState } from 'react';
 import { SearchIcon } from '@shopify/polaris-icons'
 import { useCallbackDebounce } from '@/hooks/useCallbackDebounce';
-const dataDefault: TaskClient = {
+const dataDefault: TaskData = {
     name: "",
     description: "",
     status: TaskStatus.PLANING
 };
 
 type Props = Readonly<{
-    initData: Task;
-    handleSubmit: (taskInfo: TaskSubmit) => void | Promise<void>;
+    initData: TaskData | undefined;
+    handleSubmit: (taskInfo: TaskData) => void | Promise<void>;
     initEmployee: { label: string, value: string }[]
 }>
 
@@ -63,7 +63,7 @@ export default function TaskEditForm({ handleSubmit, initData, initEmployee = []
         <Form
             method='post'
             onSubmit={async () => {
-                await handleSubmit({ ...taskInfo, status: statusSelected[0] as TaskStatus, employeeId: selectAssignee[0] });
+                await handleSubmit({ ...taskInfo, status: statusSelected[0] as TaskStatus });
             }}
         >
             <FormLayout>

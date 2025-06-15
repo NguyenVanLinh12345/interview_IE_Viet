@@ -1,25 +1,14 @@
-import { Employee } from "./common";
-
 export enum TaskStatus {
     PLANING = 'planing',
     DOING = 'doing',
     DONE = 'done'
 }
 
-export interface TaskClient {
+export interface TaskData {
     name: string;
     description?: string;
     status: TaskStatus;
-    employee?: Employee;
+    employeeId: string;
 }
 
-export interface Task extends TaskClient {
-    id: string
-}
-
-export interface TaskSubmit {
-    name: string;
-    description?: string;
-    status: TaskStatus;
-    employeeId?: string;
-}
+export type Task = Record<string, TaskData>;

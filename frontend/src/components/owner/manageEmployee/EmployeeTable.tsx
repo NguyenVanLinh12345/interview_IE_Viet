@@ -3,60 +3,35 @@
 import React, { useState } from 'react';
 
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { Employee, EmployeeClient } from '@/types/common';
+import { EmployeeData } from '@/types/employee';
 import EmployeeEditForm from '@/components/owner/manageEmployee/EmployeeEditForm';
+import { listEmployee } from '@/constants/mockData';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };
 
-type Props = Readonly<{
-
-}>
-
 type EditProp = {
     open: boolean;
-    employee: Employee | undefined;
+    employeeId: string | undefined;
 }
 
-const listEmployee: Employee[] = [
-    {
-        id: '0',
-        name: "xin chao",
-        email: "a@gmail.com",
-        address: "American",
-        enable: true,
-        phoneNumber: "3232",
-        role: 'employee'
-    },
-    {
-        id: '1',
-        name: "xin chao",
-        email: "a@gmail.com",
-        address: "American",
-        enable: false,
-        phoneNumber: "3232",
-        role: 'owner'
-    },
-];
+export default function EmployeeTable() {
+    const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, employeeId: undefined });
+    const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, employeeId: undefined });
 
-
-export default function EmployeeTable({ }: Props) {
-    const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, employee: undefined });
-    const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, employee: undefined });
-
-    const handleOpenEditPopup = (employeeInfo?: Employee) => {
-        setOpenEdit({ open: true, employee: employeeInfo });
+    const handleOpenEditPopup = (employeeId?: string) => {
+        setOpenEdit({ open: true, employeeId });
     };
 
     const handleCloseEditPopup = () => {
-        setOpenEdit({ open: false, employee: undefined });
+        setOpenEdit({ open: false, employeeId: undefined });
     };
 
-    const handleOpenDeletePopup = (employeeInfo: Employee) => {
-        setOpenDelete({ open: true, employee: employeeInfo });
+    const handleOpenDeletePopup = (employeeId: string) => {
+        setOpenDelete({ open: true, employeeId });
     };
 
     const handleCloseDeletePopup = () => {
-        setOpenDelete({ open: false, employee: undefined });
+        setOpenDelete({ open: false, employeeId: undefined });
     };
 
     const showSuccessMessage = (message: string) => {
@@ -68,19 +43,19 @@ export default function EmployeeTable({ }: Props) {
     const handleRemoveEmployee = async (employeeId?: string) => {
     };
 
-    const handleSubmit = async (employeeData: EmployeeClient) => {
+    const handleSubmit = async (employeeData: EmployeeData) => {
         console.log(employeeData)
-        if (openEdit.employee?.id) {
-            // update
+        if (openEdit.employeeId) {
+            console.log('edit')
         } else {
-            //  create
+            console.log('create')
         }
     };
 
-    const rowMarkup = listEmployee.map((employeeInfo: Employee, index: number) => {
-        const { id, name, enable, email } = employeeInfo;
+    const rowMarkup = Object.keys(listEmployee).map((employeeKey: string, index: number) => {
+        const { name, enable, email } = listEmployee[employeeKey];
         return (
-            <IndexTable.Row id={id} key={id} position={index}>
+            <IndexTable.Row id={employeeKey} key={employeeKey} position={index}>
                 <IndexTable.Cell>{name}</IndexTable.Cell>
 
                 <IndexTable.Cell>
@@ -95,7 +70,7 @@ export default function EmployeeTable({ }: Props) {
                     <ButtonGroup>
                         <Button
                             onClick={() => {
-                                handleOpenEditPopup(employeeInfo);
+                                handleOpenEditPopup(employeeKey);
                             }}
                             size="slim"
                             variant='primary'
@@ -104,7 +79,7 @@ export default function EmployeeTable({ }: Props) {
                         </Button>
                         <Button
                             onClick={() => {
-                                handleOpenDeletePopup(employeeInfo);
+                                handleOpenDeletePopup(employeeKey);
                             }}
                             size="slim"
                             tone='critical'
@@ -128,7 +103,7 @@ export default function EmployeeTable({ }: Props) {
                         <IndexTable
                             selectable={false}
                             resourceName={resourceName}
-                            itemCount={listEmployee.length}
+                            itemCount={Object.keys(listEmployee).length}
                             headings={[
                                 { title: 'Employee Name' },
                                 { title: 'Email' },
@@ -148,7 +123,7 @@ export default function EmployeeTable({ }: Props) {
                 title={"Add or Edit Employee"}
             >
                 <Modal.Section>
-                    <EmployeeEditForm handleSubmit={handleSubmit} initData={openEdit.employee as Employee} />
+                    <EmployeeEditForm handleSubmit={handleSubmit} initData={listEmployee[openEdit.employeeId as string]} />
                 </Modal.Section>
             </Modal>
 
@@ -159,11 +134,11 @@ export default function EmployeeTable({ }: Props) {
                 primaryAction={{
                     destructive: true,
                     content: 'Delete',
-                    onAction: () => handleRemoveEmployee(openDelete.employee?.id),
+                    onAction: () => handleRemoveEmployee(openDelete.employeeId),
                 }}
             >
                 <Modal.Section>
-                    Delete <strong>{openDelete.employee?.name}</strong>?
+                    Delete <strong>{listEmployee[openDelete.employeeId as string]?.name}</strong>?
                     <br />
                     This action cannot be undone.
                 </Modal.Section>
