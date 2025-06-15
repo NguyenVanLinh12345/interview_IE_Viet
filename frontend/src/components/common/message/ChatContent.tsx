@@ -5,13 +5,17 @@ import styles from './index.module.css';
 import { SendIcon } from '@shopify/polaris-icons';
 import { Button, Card, TextField } from "@shopify/polaris";
 import { useState } from 'react';
+import { ChatItem } from '@/types/message';
+import { useAppContext } from '@/context/context';
 
 type Props = Readonly<{
+    listContentChat?: ChatItem[];
     onSend: (content: string) => void | Promise<void>
 }>
 
-export default function ChatContent({ onSend }: Props) {
+export default function ChatContent({ listContentChat = [], onSend }: Props) {
     const [content, setContent] = useState('');
+    const { state } = useAppContext();
 
     const handleSend = () => {
         onSend(content);
@@ -20,8 +24,13 @@ export default function ChatContent({ onSend }: Props) {
         <Card>
             <div className={styles.chatContentContainer}>
                 <div className={styles.listChatContent}>
-                    <div className={clsx(styles.chatItem, styles.myChatItem)}>hehehehehe</div>
-                    <div className={clsx(styles.chatItem, styles.otherChatItem)}>sdfsdfsdfsdfsd</div>
+                    {
+                        listContentChat.map((element, key) => {
+                            return (
+                                <div key={key} className={clsx(styles.chatItem, element.senderId === state.userId ? styles.myChatItem : styles.otherChatItem)}>{element.content}</div>
+                            )
+                        })
+                    }
                 </div>
 
                 <div className={styles.contentInputContainer}>

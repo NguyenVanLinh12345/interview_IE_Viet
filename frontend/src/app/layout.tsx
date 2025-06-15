@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import '@shopify/polaris/build/esm/styles.css';
 import { PolarisProvider } from "./PolarisProvider";
+import { AppProvider } from "./ContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <PolarisProvider>
-          {children}
+          <AppProvider>
+            {children}
+          </AppProvider>
         </PolarisProvider>
       </body>
     </html >

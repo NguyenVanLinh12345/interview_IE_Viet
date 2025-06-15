@@ -38,3 +38,9 @@
     display: flex;
     gap: 12px;
 }
+
+
+/* Chat Board */
+.listChatItem {
+    cursor: pointer;
+}

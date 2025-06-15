@@ -46,24 +46,32 @@ export const listTask: Task = {
 export const listChat: ListConversation = {
     '0': {
         lastMessage: 'mai di nha',
-        lastUserName: 'John Time',
+        lastUserName: 'Tim Time',
         participants: ["1", "2"], // người tham gia (đến lúc truy vấn thì xem danh sách người tham gia có trong này ko)
-        messages: {
-            '0': {
+        messages: [
+            {
+                content: "hello",
+                senderId: '0'
+            },
+            {
+                content: "hello",
+                senderId: '1'
+            },
+            {
                 content: "hello",
                 senderId: '0'
             }
-        }
+        ]
     },
     '1': {
         lastMessage: 'mai di nha',
         lastUserName: 'John Time',
         participants: ["1", "2"],
-        messages: {
-            '0': {
+        messages: [
+            {
                 content: "hello",
                 senderId: '0'
             }
-        }
+        ]
     }
 }

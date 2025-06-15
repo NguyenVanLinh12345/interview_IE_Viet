@@ -2,9 +2,12 @@
 
 import { Avatar, BlockStack, Box, Card, InlineStack, Layout, Text } from "@shopify/polaris";
 import ChatContent from "./ChatContent";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { io, Socket } from 'socket.io-client';
+import { listChat } from "@/constants/mockData";
+import styles from './index.module.css';
+import { clsx } from "@/helper/common";
 
 interface ServerToClientEvents {
     'chat message': (msg: string) => void;
@@ -16,11 +19,9 @@ interface ClientToServerEvents {
     'join room': (username: string) => void;
 }
 
-// Example usage
-// sendMessage('Hello server!');
-
 export default function ChatBoard() {
     const socketRef = useRef<Socket<ServerToClientEvents, ClientToServerEvents> | undefined>(undefined);
+    const [listContentChatId, setListContentChatId] = useState<string>('');
 
     const handleSend = async (content: string) => {
         console.log(content);
@@ -29,19 +30,15 @@ export default function ChatBoard() {
     useEffect(() => {
         socketRef.current = io('http://localhost:3001');
 
-        // Event listener for connection
         socketRef.current?.on('connect', () => {
             console.log('Connected to server');
-            // Emit join event with user name
             socketRef.current?.emit('join room', 'user123');
         });
 
-        // Event listener for 'chat message'
         socketRef.current?.on('chat message', (msg) => {
             console.log('Message:', msg);
         });
 
-        // Event listener for 'user joined'
         socketRef.current?.on('user joined', (username) => {
             console.log(`${username} has joined the chat.`);
         });
@@ -57,23 +54,37 @@ export default function ChatBoard() {
                 <Layout.Section variant="oneThird">
                     <BlockStack gap={'300'}>
                         {
-                            ['1', '2', '3'].map((value) => (
-                                <Card key={value}>
-                                    <InlineStack gap={'300'}>
-                                        <Avatar initials={"Farrah"[0]} name="Farrah" size="xl" />
-                                        <div>
-                                            <Text as="p" variant="headingLg">Farrah</Text>
-                                            <Text as="p" variant="bodyLg">Last message</Text>
-                                        </div>
-                                    </InlineStack>
-                                </Card>
-                            ))
+                            Object.keys(listChat).map((chatItemId) => {
+                                const chatItem = listChat[chatItemId];
+                                return (
+                                    <div className={clsx(styles.listChatItem)} key={chatItemId} onClick={() => setListContentChatId(chatItemId)}> {/* NOSONAR */}
+                                        <Card
+                                            background={
+                                                listContentChatId === chatItemId
+                                                    ? "bg-fill-secondary-active"
+                                                    : "bg-surface-secondary"
+                                            }
+                                        >
+                                            <InlineStack gap={'300'}>
+                                                <Avatar initials={chatItem.lastUserName[0]} name={chatItem.lastUserName} size="xl" />
+                                                <div>
+                                                    <Text as="p" variant="headingLg">{chatItem.lastUserName}</Text>
+                                                    <Text as="p" variant="bodyLg">{chatItem.lastMessage}</Text>
+                                                </div>
+                                            </InlineStack>
+                                        </Card>
+                                    </div>
+                                )
+                            })
                         }
                     </BlockStack>
                 </Layout.Section>
 
                 <Layout.Section>
-                    <ChatContent onSend={handleSend} />
+                    <ChatContent
+                        listContentChat={listChat[listContentChatId]?.messages}
+                        onSend={handleSend}
+                    />
                 </Layout.Section>
             </Layout>
         </Box>

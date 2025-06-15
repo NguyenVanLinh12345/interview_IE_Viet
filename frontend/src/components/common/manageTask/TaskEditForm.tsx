@@ -5,10 +5,13 @@ import { Autocomplete, BlockStack, Button, Form, FormLayout, Icon, InlineStack, 
 import { useState } from 'react';
 import { SearchIcon } from '@shopify/polaris-icons'
 import { useCallbackDebounce } from '@/hooks/useCallbackDebounce';
+import { useAppContext } from '@/context/context';
+
 const dataDefault: TaskData = {
     name: "",
     description: "",
-    status: TaskStatus.PLANING
+    status: TaskStatus.PLANING,
+    employeeId: ''
 };
 
 type Props = Readonly<{
@@ -19,6 +22,8 @@ type Props = Readonly<{
 
 // filter danh sách employee
 export default function TaskEditForm({ handleSubmit, initData, initEmployee = [] }: Props) {
+    const { state } = useAppContext();
+
     const [taskInfo, setTaskInfo] = useState(initData ?? dataDefault);
     const [statusSelected, setStatusSelected] = useState<string[]>([initData?.status ?? TaskStatus.PLANING]);
     const [popoverActive, setPopoverActive] = useState(true);
@@ -105,21 +110,25 @@ export default function TaskEditForm({ handleSubmit, initData, initEmployee = []
                         />
                     </Popover>
 
-                    <Autocomplete
-                        options={listEmployeeSearch}
-                        selected={selectAssignee}
-                        onSelect={updateSelection}
-                        textField={
-                            <Autocomplete.TextField
-                                onChange={updateSearchValue}
-                                label="Assignee"
-                                value={searchValue}
-                                prefix={<Icon source={SearchIcon} tone="base" />}
-                                placeholder="Search"
-                                autoComplete="off"
-                            />
-                        }
-                    />
+                    {
+                        state.userRole === 'owner' &&
+                        <Autocomplete
+                            options={listEmployeeSearch}
+                            selected={selectAssignee}
+                            onSelect={updateSelection}
+                            textField={
+                                <Autocomplete.TextField
+                                    onChange={updateSearchValue}
+                                    label="Assignee"
+                                    value={searchValue}
+                                    prefix={<Icon source={SearchIcon} tone="base" />}
+                                    placeholder="Search"
+                                    autoComplete="off"
+                                />
+                            }
+                        />
+                    }
+
                     <InlineStack align='end'>
                         <Button variant='primary' submit>Save</Button>
                     </InlineStack>

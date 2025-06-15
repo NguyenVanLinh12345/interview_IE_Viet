@@ -14,7 +14,7 @@ const http = require('http').Server(app);
 
 app.use(express.json());
 app.use(cors());
-app.use('/', indexRoutes);
+app.use('/api', indexRoutes);
 app.use('/api/owner', ownerRoutes);
 app.use('/api/employee', employeeRoutes);
 

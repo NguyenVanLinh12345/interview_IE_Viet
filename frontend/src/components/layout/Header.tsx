@@ -1,4 +1,4 @@
-// import useAppContext from '@/hooks/useAppContext';
+import { useAppContext } from '@/context/context';
 import { ActionList, TopBar } from '@shopify/polaris';
 import { useState, useCallback } from 'react';
 
@@ -7,12 +7,11 @@ type Props = Readonly<{
 }>
 
 export default function Header({ toggleSideBar }: Props) {
-    // const [appState, dispatch] = useAppContext();
-    // const name = appState.name;
-    const name = 'name';
+    const { state } = useAppContext();
+    const name = state.userName;
 
     const [userMenuActive, setUserMenuActive] = useState(false);
- 
+
     const toggleUserMenuActive = useCallback(
         () => setUserMenuActive((userMenuActive) => !userMenuActive),
         [],
@@ -26,10 +25,7 @@ export default function Header({ toggleSideBar }: Props) {
     // Đây là danh sách hiển thị khi bấm vào ô tên ở bên phải
     const userMenuActions = [
         {
-            items: [{ content: 'Bài tập số 2' }],
-        },
-        {
-            items: [{ content: 'Ngày bắt đầu 18/7' }],
+            items: [{ content: 'Chúc mừng bạn đã chạy app thành công' }],
         },
     ];
 
