@@ -7,7 +7,7 @@ export default function SecondStep() {
 
     const handleLogin = async (content: string) => {
 
-        router.replace('/');
+        router.replace('/employee');
     }
 
     return (

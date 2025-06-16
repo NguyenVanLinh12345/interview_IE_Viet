@@ -1,11 +1,11 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Badge, BlockStack, Box, Button, ButtonGroup, Card, IndexTable, InlineStack, Modal, Text } from '@shopify/polaris';
-import { EmployeeData } from '@/types/employee';
+import { Employee, EmployeeData } from '@/types/employee';
 import EmployeeEditForm from '@/components/owner/manageEmployee/EmployeeEditForm';
-import { listEmployee } from '@/constants/mockData';
+// import { listEmployee } from '@/constants/mockData';
 
 const resourceName = { singular: 'employee', plural: 'listEmployee' };
 
@@ -17,6 +17,7 @@ type EditProp = {
 export default function EmployeeTable() {
     const [openEdit, setOpenEdit] = useState<EditProp>({ open: false, employeeId: undefined });
     const [openDelete, setOpenDelete] = useState<EditProp>({ open: false, employeeId: undefined });
+    const [listEmployee, setListEmployee] = useState<Employee>({});
 
     const handleOpenEditPopup = (employeeId?: string) => {
         setOpenEdit({ open: true, employeeId });
@@ -34,12 +35,6 @@ export default function EmployeeTable() {
         setOpenDelete({ open: false, employeeId: undefined });
     };
 
-    const showSuccessMessage = (message: string) => {
-    };
-
-    const showErrorMessage = (message: string) => {
-    };
-
     const handleRemoveEmployee = async (employeeId?: string) => {
     };
 
@@ -51,6 +46,16 @@ export default function EmployeeTable() {
             console.log('create')
         }
     };
+
+    useEffect(() => {
+        fetch('/api/owner')
+            .then(res => res.json())
+            .then(data => {
+                setListEmployee(data?.data?.listEmployee ?? {});
+                console.log(data)
+            })
+            .catch(error => console.log(error))
+    }, []);
 
     const rowMarkup = Object.keys(listEmployee).map((employeeKey: string, index: number) => {
         const { name, enable, email } = listEmployee[employeeKey];

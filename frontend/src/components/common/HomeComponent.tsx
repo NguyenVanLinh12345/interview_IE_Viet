@@ -9,13 +9,6 @@ export default function HomeComponent() {
   const [isEmployeeLoading, setIsEmployeeLoading] = useState(false);
   const route = useRouter();
 
-  useEffect(() => {
-    fetch('/api-v0/set-access-cookie', {
-      method: 'POST',
-      body: JSON.stringify({ token: 'hello-nhoa' })
-    })
-  })
-
   return (
     <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Card>

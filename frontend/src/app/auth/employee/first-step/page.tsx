@@ -5,8 +5,14 @@ import { useRouter } from "next/navigation";
 export default function FirstStep() {
     const router = useRouter();
 
-    const validateEmail = async (content: string) => {
-
+    const validateEmail = async (email: string) => {
+        const response = await fetch('/api/create-new-access-code', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: email
+            })
+        })
+        console.log(await response.json())
         router.push('/auth/employee/second-step');
     }
 

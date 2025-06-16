@@ -1,12 +1,14 @@
 const express = require("express");
 const auth = require("../middleware/auth");
+const { getListEmployee } = require("../controllers/employeeManage");
 const router = express.Router();
 
 router.use(auth(["owner"]));
 
 
-router.get("/dashboard", (req, res) => {
-  res.json({ message: "Owner dashboard", user: req.user });
+router.get("/", (req, res) => {
+  const listEmployee = getListEmployee();
+  res.json({ listEmployee });
 });
 
 module.exports = router;
